@@ -1,12 +1,10 @@
 # diyha3-motion
 Detect motion and report to the MQTT broker and the django web server. 
 ## Description: 
-This is my latest **Raspberry Pi** project that implements an administration server to collect and report status to my "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. I usually create a **systemd service** so the application runs at boot. Each python DIYHA application is hosted on a Raspberry Pi server and will respond to a variety of subscribed topic and report on their status or application specific test data. 
+This is an updated version of a **Raspberry Pi** project that implements motion sensor to collect and report status to my "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. I usually create a **systemd service** so the application runs at boot. Each python DIYHA application is hosted on a Raspberry Pi server and will respond to a variety of subscribed topic and report on their status or application specific test data. 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django)
-
-
 
 > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
 
@@ -79,8 +77,8 @@ Not applicable.
 What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
 - git clone the repository 
 ```
-git clone https://github.com/parttimehacker/diyha-asset.git
-cd diyha-asset
+git clone https://github.com/parttimehacker/diyha3-motion.git
+cd diyha3-motion
 ```
 <div align="left">
     <img src="assettree.png" width="200px"</img> 
@@ -104,15 +102,15 @@ sudo python3 asset.py --mq MQTTBROKERSERVER --lt LOCATIONTOPIC -ws DJANGOWEBSERV
 First edit the **asset systemd service** and replace the MQTT broker, room values and django web server with their host names or IP addresse. A systemd install script will move files and enable the applicaiton via **systemctl** commands.
 - Run the script and provide the application name **asset** to setup systemd (the script uses a file name argument to create the service). 
 ```
-vi asset.service
-./systemd_script.sh asset
+vi motion.service
+./systemd_script.sh motion
 ```
 This script also adds four aliases to the **.bash_aliases** in your home directory for convenience.
 ```
-sudo systemctl start asset
-sudo systemctl stop asset
-sudo systemctl restart asset
-sudo systemctl -l status asset
+sudo systemctl start motion
+sudo systemctl stop motion
+sudo systemctl restart motion
+sudo systemctl -l status motion
 ```
 - You will need to login or reload the **.bashrc** script to enable the alias entries. For example:
 ```
@@ -122,17 +120,7 @@ source .bashrc
 ### MQTT Topics and Messages
 The application subscribes to two MQTT topics and publishes six status messages. Three are are sent at initialization and then handled by a **diy/system/who** message. Three other messages are sent every 15 minutes after calculating an average. The first three are:
 ```
-self.host = socket.gethostname()
-self.os_version_topic = "diy/" + self.host + "/os"
-self.pi_version_topic = "diy/" + self.host + "/pi"
-self.ip_address_topic = "diy/" + self.host + "/ip"
-```
-The timed messages are:
-```
-self.host = socket.gethostname()
-self.cpu_topic = "diy/" + self.host + "/cpu"
-self.celsius_topic = "diy/" + self.host + "/cpucelsius"
-self.disk_topic = "diy/" + self.host + "/disk"
+self.os_version_topic = "diy/" + location + "/motion"
 ```
 - The **diy/system/who** sends local server information to the MQTT Broker. 
 ## Implementation Status
