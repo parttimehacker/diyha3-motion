@@ -1,7 +1,7 @@
 # diyha3-motion
 Detect motion and report to the MQTT broker and the django web server. 
 ## Description: 
-This is an updated version of a **Raspberry Pi** project that implements motion sensor to collect and report status to my "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. I usually create a **systemd service** so the application runs at boot. Each python DIYHA application is hosted on a Raspberry Pi server and will respond to a variety of subscribed topic and report on their status or application specific test data. 
+This is an updated version of a **Raspberry Pi** project that implements a PIR motion sensor to collect and report status to my "do it yourself home automation" system.  The application requires **Raspbian OS** and is written in **python3**. I usually create a **systemd service** so the application runs at boot. Each python DIYHA application is hosted on a Raspberry Pi server and will respond to a variety of subscribed topic and report on their status or application specific test data. 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django)
@@ -25,7 +25,7 @@ This is an updated version of a **Raspberry Pi** project that implements motion 
 - Provide general information about your project here.
   - This is one of several Python processes used in my home automation system (**DIYHA**). I've used OOP, MVC, and MTV concepts in my DIYHA system. 
 - What problem does it (intend to) solve?
-  - I wanted to isolate the server information and status into a single process. The main python application subscribes to a **diy/system/who** topic and responds by turning on or off status updates.
+  - I wanted to isolate the server information and status into a single process.
 - What is the purpose of your project?
   - My home automation system contains environment sensors, motion sensors, LED clocks, light switches, emergency sirens, a django web server, interfaces to Adafruit.io and a mosquitto MQTT broker.
 - Why did you undertake it?
@@ -63,8 +63,7 @@ sudo pip3 install adafruit-circuitpython-ssd1306 --break-system-packages
 
 ## Features
 List the ready features here:
-- Handles the basic **diy/system/who** function
-- Reports on status and diagnostic information for the host raspberry pi server.
+- Reports on motion in proximity to a PIR sensor.
 - Code passes pylint with a score of 10.0
 ## Screenshots
 Not applicable.
@@ -83,17 +82,12 @@ cd diyha3-motion
 <div align="left">
     <img src="assettree.png" width="200px"</img> 
 </div>
-
-- install dependencies
-```
-sudo pip3 install -r requirements.txt
-```
 ## Usage
 You need to decide whether you want to manually run the application or have it started as part of the boot process. I recommend making a **Raspbian OS systemd service**, so the application starts when rebooted or controled by **systemctl** commands. The **systemd_script.sh** creates a admin directory in **/usr/local directory**. The application files are then copied to this new directory. The application will also require a log file in **/var/log directory** named asset.log.
 ### Manual or Command Prompt
 To manually run the application enter the following command (sudo may be required on your system)
 ```
-sudo python3 asset.py --mq MQTTBROKERSERVER --lt LOCATIONTOPIC -ws DJANGOWEBSERVER
+sudo python3 motion.py --mq MQTTBROKERSERVER --lt LOCATIONTOPIC -ws DJANGOWEBSERVER
 ```
 - MQTTBROKERSERVER is the host name or IP address of MQTT broker. I use the Open Source Mosquitto broker and bridge.
 - LOCATIONTOPIC is the MQTT topic name for the location of the server. 
