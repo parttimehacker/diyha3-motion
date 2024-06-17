@@ -79,9 +79,11 @@ What are the project requirements/dependencies? Where are they listed? A require
 git clone https://github.com/parttimehacker/diyha3-motion.git
 cd diyha3-motion
 ```
+<!--
 <div align="left">
     <img src="assettree.png" width="200px"</img> 
 </div>
+-->
 ## Usage
 You need to decide whether you want to manually run the application or have it started as part of the boot process. I recommend making a **Raspbian OS systemd service**, so the application starts when rebooted or controled by **systemctl** commands. The **systemd_script.sh** creates a admin directory in **/usr/local directory**. The application files are then copied to this new directory. The application will also require a log file in **/var/log directory** named asset.log.
 ### Manual or Command Prompt
